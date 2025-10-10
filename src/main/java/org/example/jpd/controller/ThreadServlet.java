@@ -5,7 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.jpd.common.factory.SimpleBeanFactory;
 import org.example.jpd.common.util.ThreadUtil;
+import org.example.jpd.service.ThreadService;
 
 import java.io.IOException;
 
@@ -20,11 +22,13 @@ public class ThreadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ThreadService threadService = SimpleBeanFactory.getInstance(ThreadService.class);
+
         if(req.getParameter("start") != null) {
-            ThreadUtil.startAllThreads();
+            threadService.startAllThreads();
         }
         else if(req.getParameter("clear") != null) {
-            ThreadUtil.clearResult();
+            threadService.clearResult();
         }
 
         // 刷新网页

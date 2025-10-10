@@ -8,6 +8,7 @@
 
 - [x] 所有的实验内容
 - [x] 基于网页实现
+- [ ] 日志及统一的异常处理
 - [ ] 功能优化
 - [ ] 样式表美化
 - [ ] 单元测试
@@ -18,7 +19,8 @@
 
 - `common`: 包含常量定义、工具类及实验所需的基本内容。
 - `controller`: 对应 MVC 中的 Controller，存放所有 Servlet。
-- `entity`: 对应 MVC 中的 Model，存放所有实体（Entity）。
+- `service`：服务层，负责主要业务逻辑。
+- `entity`: 对应 MVC 中的 Model，存放所有实体（Entity）。VO、DTO、PO 暂时三合一。
 - `dao`: 数据访问层，负责与数据库连接、关闭、增删改查。
 - `webapp`: 对应 MVC 中的 View，存放所有网页（JSP 文件）和样式表。
 

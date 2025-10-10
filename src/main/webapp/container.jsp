@@ -16,26 +16,26 @@
 <form action="container-servlet" method="post">
   <h1>立方体</h1>
   <label>
-    长度: <input name="cube-radius" type="number" min="0" step="0.01" value="${containerEntity.cubeRadius}">
+    长度: <input name="cubeRadius" type="number" min="0" step="0.01" value="${containerEntity.cubeRadius}">
   </label>
-  <input name="solve-cube" type="submit" value="求解">
+  <input name="solveCube" type="submit" value="求解">
 
   <h1>球体</h1>
   <label>
-    半径: <input name="sphere-radius" type="number" min="0" step="0.01" value="${containerEntity.sphereRadius}">
+    半径: <input name="sphereRadius" type="number" min="0" step="0.01" value="${containerEntity.sphereRadius}">
   </label>
-  <input name="solve-sphere" type="submit" value="求解">
+  <input name="solveSphere" type="submit" value="求解">
 
   <h1>圆柱体</h1>
   <label>
-    半径: <input name="cylinder-radius" type="number" min="0" step="0.01" value="${containerEntity.cylinderRadius}">
+    半径: <input name="cylinderRadius" type="number" min="0" step="0.01" value="${containerEntity.cylinderRadius}">
   </label>
   <label>
-    高: <input name="cylinder-height" type="number" min="0" step="0.01" value="${containerEntity.cylinderHeight}">
+    高: <input name="cylinderHeight" type="number" min="0" step="0.01" value="${containerEntity.cylinderHeight}">
   </label>
-  <input name="solve-cylinder" type="submit" value="求解">
+  <input name="solveCylinder" type="submit" value="求解">
   <br/>
-  <input name="solve-all" type="submit" value="求解全部">
+  <input name="solveAll" type="submit" value="求解全部">
 </form>
 <label>面积: ${containerEntity.area}</label>
 <br/>

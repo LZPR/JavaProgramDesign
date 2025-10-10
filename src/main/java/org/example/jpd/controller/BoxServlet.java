@@ -6,9 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.jpd.common.constant.MessageConstant;
-import org.example.jpd.common.util.AlgorithmUtil;
+import org.example.jpd.common.factory.SimpleBeanFactory;
+import org.example.jpd.common.util.BeanUtil;
 import org.example.jpd.common.util.PrintUtil;
 import org.example.jpd.entity.BoxEntity;
+import org.example.jpd.service.BoxService;
 
 import java.io.IOException;
 
@@ -28,19 +30,18 @@ public class BoxServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        BoxEntity boxEntity = new BoxEntity();
+        BoxEntity boxEntity;
 
         try {
-            boxEntity.setLength(Double.parseDouble(req.getParameter("length")));
-            boxEntity.setWidth(Double.parseDouble(req.getParameter("width")));
-            boxEntity.setHeight(Double.parseDouble(req.getParameter("height")));
-            boxEntity.setDensity(Double.parseDouble(req.getParameter("density")));
+            boxEntity = BeanUtil.parseParams(BoxEntity.class, req);
         } catch (NumberFormatException e) {
             PrintUtil.printError(resp, MessageConstant.ILLEGAL_ARGUMENT, e);
             return;
         }
 
-        AlgorithmUtil.calculateBox(boxEntity);
+        BoxService boxService = SimpleBeanFactory.getInstance(BoxService.class);
+        boxEntity = boxService.calculateBox(boxEntity);
+
         req.setAttribute("boxEntity", boxEntity);
         req.getRequestDispatcher("box.jsp").forward(req, resp);
     }

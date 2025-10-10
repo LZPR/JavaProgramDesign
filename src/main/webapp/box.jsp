@@ -27,7 +27,7 @@
         比重：<input name="density" type="number" min="0" step="0.01" value="${boxEntity.density}">
     </label>
     <br/>
-    <input type="submit">
+    <input type="submit" value="计算">
 </form>
 <label>体积：${boxEntity.volume}</label>
 <br/>

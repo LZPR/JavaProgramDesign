@@ -15,7 +15,7 @@
 <body>
     <form action="prime-servlet" method="post">
         <label>
-            输入数字：<input name="input" type="number" min="1" value="${primeEntity.input}">
+            输入数字：<input name="input" type="number" min="2" value="${primeEntity.input}">
         </label>
         <input type="submit" value="求解">
     </form>

@@ -14,7 +14,7 @@ public class BookDao extends BaseDao {
         super();
     }
 
-    public List<BookEntity> selectAllBooks() {
+    public List<BookEntity> selectAllBooks() throws SQLException {
         List<BookEntity> result = new ArrayList<>();
         try (PreparedStatement preparedStatement = getConnection()
                 .prepareStatement("select * from book order by book_price desc")) {
@@ -33,17 +33,15 @@ public class BookDao extends BaseDao {
                 }
             }
         }
-        catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
         return result;
     }
 
-    public void insertBook(BookEntity book) {
+    public void insertBook(BookEntity book) throws SQLException {
         try (PreparedStatement preparedStatement = getConnection()
                 .prepareStatement("insert into book(book_id, book_name, book_price, book_author, book_publish, book_type)" +
                         "values (?, ?, ?, ?, ?, ?)")) {
 
+            //虽然 SQL 定义中允许 null 但 SQL 操作时不能传入 null，因此统一不允许 null
             preparedStatement.setInt(1, book.getId());
             preparedStatement.setString(2, book.getName());
             preparedStatement.setDouble(3, book.getPrice());
@@ -52,8 +50,12 @@ public class BookDao extends BaseDao {
             preparedStatement.setString(6, book.getType());
             preparedStatement.execute();
         }
-        catch (SQLException e) {
-            System.err.println(e.getMessage());
+    }
+
+    public void deleteBooks() throws SQLException {
+        try (PreparedStatement preparedStatement = getConnection()
+                .prepareStatement("delete from book")) {
+            preparedStatement.execute();
         }
     }
 }

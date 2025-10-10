@@ -6,9 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.jpd.common.constant.MessageConstant;
-import org.example.jpd.common.util.AlgorithmUtil;
+import org.example.jpd.common.factory.SimpleBeanFactory;
+import org.example.jpd.common.util.BeanUtil;
 import org.example.jpd.common.util.PrintUtil;
 import org.example.jpd.entity.FibonacciEntity;
+import org.example.jpd.service.FibonacciService;
 
 import java.io.IOException;
 
@@ -19,24 +21,27 @@ public class FibonacciServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         FibonacciEntity fibonacciEntity = new FibonacciEntity();
         fibonacciEntity.setInput(1);
-        req.setAttribute("fibonacciEntity",fibonacciEntity);
-        req.getRequestDispatcher("/fibonacci.jsp").forward(req,resp);
+        req.setAttribute("fibonacciEntity", fibonacciEntity);
+        req.getRequestDispatcher("/fibonacci.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FibonacciEntity fibonacciEntity = new FibonacciEntity();
+        FibonacciEntity fibonacciEntity;
 
         try {
-            int input = Integer.parseInt(req.getParameter("input"));
-            fibonacciEntity.setInput(input);
-            fibonacciEntity.setResult(AlgorithmUtil.getFibonacciString(input));
-        } catch (IllegalArgumentException e){
+            fibonacciEntity = BeanUtil.parseParams(FibonacciEntity.class, req);
+            FibonacciService fibonacciService = SimpleBeanFactory.getInstance(FibonacciService.class);
+            fibonacciEntity = fibonacciService.getFibonacci(fibonacciEntity);
+        } catch (IllegalArgumentException e) {
             PrintUtil.printError(resp, MessageConstant.ILLEGAL_ARGUMENT, e);
+            return;
+        } catch (ArithmeticException e) {
+            PrintUtil.printError(resp, MessageConstant.ARITHMETIC_EXCEPTION, e);
             return;
         }
 
-        req.setAttribute("fibonacciEntity",fibonacciEntity);
-        req.getRequestDispatcher("/fibonacci.jsp").forward(req,resp);
+        req.setAttribute("fibonacciEntity", fibonacciEntity);
+        req.getRequestDispatcher("/fibonacci.jsp").forward(req, resp);
     }
 }

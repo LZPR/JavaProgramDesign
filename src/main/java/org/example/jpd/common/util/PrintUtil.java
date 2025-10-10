@@ -25,8 +25,10 @@ public class PrintUtil {
         out.println("</html>");
     }
 
+
+    //TODO: 配置全局异常处理器，显示统一的页面
     public static void printError(HttpServletResponse resp, String message, Exception e) throws IOException {
-        print(resp, "Error", message + "<br>" + e.getMessage() + "<br>");
+        print(resp, "Error", message + "<br>");
         e.printStackTrace(resp.getWriter());
         System.err.println(e.getMessage());
     }

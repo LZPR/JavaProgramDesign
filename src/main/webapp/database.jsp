@@ -59,7 +59,8 @@
     <label>
         类型：<input type="text" name="type">
     </label>
-    <input type="submit" value="添加">
+    <input name="add" type="submit" value="添加">
+    <input name="clear" type="submit" value="清空">
 </form>
 </body>
 </html>

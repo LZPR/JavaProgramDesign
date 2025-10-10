@@ -1,42 +1,9 @@
 package org.example.jpd.common.util;
 
-import org.example.jpd.entity.BoxEntity;
-
 /**
- * 算法工具类。由于省略了 Service 层，所以统一封装成静态方法，方便直接调用。
+ * 算法工具类。抽取了公用的算法。
  */
 public class AlgorithmUtil {
-
-    public static String getFibonacciString(int n) throws IllegalArgumentException {
-        if (n < 0) {
-            throw new IllegalArgumentException("n必须为非负整数");
-        }
-
-        if (n == 0) {
-            return "";
-        }
-
-        if (n == 1) {
-            return "0";
-        }
-
-        StringBuilder result = new StringBuilder();
-
-        long first = 0;
-        long second = 1;
-
-        result.append(first);
-        result.append(" ").append(second);
-
-        for (int i = 3; i <= n; i++) {
-            long next = first + second;
-            result.append(" ").append(next);
-            first = second;
-            second = next;
-        }
-
-        return result.toString();
-    }
 
     public static boolean isPrimeNumber(int x) throws IllegalArgumentException {
         if (x <= 1) {
@@ -56,19 +23,32 @@ public class AlgorithmUtil {
         return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
     }
 
-    public static void calculateBox(BoxEntity box) {
-        box.setVolume(box.getLength() * box.getHeight() * box.getWidth());
-        box.setWeight(box.getVolume() * box.getDensity());
-    }
-
-    public static int getMaxNumberInArray(int[] arr) {
-        int l = 0;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] > arr[l]) {
-                l = i;
-            }
+    public static long[] getFibonacci(int n) throws IllegalArgumentException, ArithmeticException {
+        if (n < 0) {
+            throw new IllegalArgumentException("n必须为非负整数");
         }
-        return arr[l];
+
+        if (n == 0) {
+            return new long[]{0};
+        }
+
+        if (n == 1) {
+            return new long[]{1};
+        }
+
+        long[] result = new long[n];
+        result[0] = 0;
+        result[1] = 1;
+
+        for (int i = 2; i < n; i++) {
+            if(result[i - 2]> Long.MAX_VALUE - result[i - 1]) {
+                throw new ArithmeticException("运算结果超过了所能表示的最大值");
+            }
+
+            long next = result[i - 2] + result[i - 1];
+            result[i] = next;
+        }
+
+        return result;
     }
 }

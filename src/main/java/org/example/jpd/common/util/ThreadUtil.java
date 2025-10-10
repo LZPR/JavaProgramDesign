@@ -5,6 +5,8 @@ import org.example.jpd.common.runnable.Thread2Runnable;
 import org.example.jpd.common.thread.LeapThread;
 import org.example.jpd.common.thread.PrimeThread;
 
+import java.util.List;
+
 /**
  * 线程工具类，采用单例模式管理，防止重复创建线程。
  * <p>{@link #RESULT}会统一保存线程输出的信息，方便读取。
@@ -17,6 +19,8 @@ public class ThreadUtil {
 
     public static final Thread LEAP_THREAD_RUNNABLE = new Thread(new LeapThreadRunnable());
     public static final Thread THREAD2_RUNNABLE = new Thread(new Thread2Runnable());
+
+    public static final List<Thread> THREADS = List.of(LEAP_THREAD, PRIME_THREAD, THREAD2_RUNNABLE);
 
     public static boolean startThread(Thread thread) {
         try {
@@ -35,13 +39,6 @@ public class ThreadUtil {
     public static void appendResult(String result) {
         //不能多次 append，会出现不同步的问题
         RESULT.append(result + "<br>");
-    }
-
-    public static void startAllThreads() {
-        startThread(LEAP_THREAD);
-        startThread(PRIME_THREAD);
-        startThread(LEAP_THREAD_RUNNABLE);
-        startThread(THREAD2_RUNNABLE);
     }
 
     public static void clearResult() {
