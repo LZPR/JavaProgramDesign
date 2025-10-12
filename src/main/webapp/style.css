@@ -1,77 +1,198 @@
+/* 基础重置和全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* 表单元素样式 */
 label {
     display: block;
+    font-weight: 500;
+    color: #334155;
+    margin: 6px 0;
+    font-size: 14px;
 }
 
 input[type=submit] {
-    padding: 5px 20px;
-    background: #FFF;
-    border-color: rgba(0, 0, 0, 0.08);
-    border-radius: 10px;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    color: white;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
     text-align: center;
-    align-content: center;
-    margin: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin: 12px 0;
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+input[type=submit]:hover {
+    background: linear-gradient(135deg, #4338ca, #3730a3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
+}
+
+input[type=submit]:active {
+    transform: translateY(0);
 }
 
 input[type=text], input[type=number] {
-    min-width: 500px;
-    background: #FFFFFF;
-    border: 1px solid #E5E5E5;
+    width: 100%;
+    /*max-width: 500px;*/
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
-    box-sizing: border-box;
     font-size: 14px;
-    margin: 10px;
-    line-height: 22px;
-    padding: 5px;
+    margin: 5px 0;
+    line-height: 20px;
+    padding: 8px 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+input[type=text]:focus, input[type=number]:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* 链接样式 */
 a {
     display: inline-block;
-    background: #F3F3F3;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 8px;
-    margin: 5px 10px;
-    padding: 14px 20px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 5px 10px 5px 0;
+    padding: 10px 16px;
     user-select: none;
     text-decoration: none;
+    color: #4f46e5;
+    transition: all 0.2s ease;
 }
 
+a:hover {
+    background: #f8fafc;
+    border-color: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 标题样式 */
 h1 {
-    margin: 10px 15px;
+    margin: 10px 0 24px 0;
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.2;
 }
 
+/* 表格样式 */
 table {
-    width: 90%;
-    background: #ccc;
-    margin: 10px auto;
+    width: 100%;
+    background: #ffffff;
+    margin: 10px 0 24px 0;
     border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 th, td {
-    height: 25px;
-    line-height: 25px;
-    text-align: center;
-    border: 1px solid #ccc;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    padding: 0 16px;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 th {
-    background: #eee;
-    font-weight: normal;
+    background: #f8fafc;
+    font-weight: 600;
+    color: #334155;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 tr {
-    background: #fff;
+    background: #ffffff;
+    transition: background-color 0.2s ease;
 }
 
 tr:hover {
-    background: #66FFFF;
+    background: #f8fafc;
+}
+
+tr:last-child td {
+    border-bottom: none;
 }
 
 td a {
-    color: #06f;
+    color: #4f46e5;
     text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-weight: 500;
+}
+
+td a:hover {
+    text-decoration: underline;
+    background: transparent;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 容器样式 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 卡片样式 */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    input[type=text], input[type=number] {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
 }

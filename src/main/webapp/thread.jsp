@@ -17,6 +17,7 @@
     <input type="submit" name="clear" value="清空">
     <input type="submit" name="refresh" value="刷新">
 </form>
+<label>点击“刷新”查看结果</label>
 <label>
     <%=request.getAttribute("result")%>
 </label>

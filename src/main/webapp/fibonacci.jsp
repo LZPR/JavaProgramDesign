@@ -13,10 +13,9 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    求前 n 个斐波那契数。
     <form action="fibonacci-servlet" method="post">
         <label>
-            输入 n: <input name="input" type="number" min="1" value="${fibonacciEntity.input}">
+            输入 n（求前 n 个斐波那契数）: <input name="input" type="number" min="1" value="${fibonacciEntity.input}">
         </label>
         <input type="submit" value="求解">
     </form>

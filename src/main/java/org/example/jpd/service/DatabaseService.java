@@ -1,5 +1,6 @@
 package org.example.jpd.service;
 
+import org.example.jpd.common.exception.DatabaseException;
 import org.example.jpd.dao.BookDao;
 import org.example.jpd.entity.BookEntity;
 
@@ -7,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DatabaseService {
-    public void addBook(BookEntity bookEntity) throws IllegalArgumentException, SQLException, ClassNotFoundException {
+    public void addBook(BookEntity bookEntity) throws IllegalArgumentException, DatabaseException {
         try (BookDao bookDao = new BookDao()) {
 
             List<BookEntity> bookEntities = bookDao.selectAllBooks();
@@ -18,17 +19,26 @@ public class DatabaseService {
 
             bookDao.insertBook(bookEntity);
         }
-    }
-
-    public void clearBooks() throws SQLException, ClassNotFoundException {
-        try (BookDao bookDao = new BookDao()) {
-            bookDao.deleteBooks();
+        catch (SQLException | ClassNotFoundException e) {
+            throw new DatabaseException(e);
         }
     }
 
-    public List<BookEntity> getBooks() throws SQLException, ClassNotFoundException {
+    public void clearBooks() throws DatabaseException {
+        try (BookDao bookDao = new BookDao()) {
+            bookDao.deleteBooks();
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    public List<BookEntity> getBooks() throws DatabaseException {
         try (BookDao bookDao = new BookDao()) {
             return bookDao.selectAllBooks();
+        }
+        catch (SQLException | ClassNotFoundException e) {
+            throw new DatabaseException(e);
         }
     }
 }

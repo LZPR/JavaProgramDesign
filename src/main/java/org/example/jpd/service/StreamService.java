@@ -12,6 +12,10 @@ import java.io.InputStreamReader;
 public class StreamService {
 
     public StreamEntity parseFile(Part filePart) throws IOException {
+        if(filePart.getSize() == 0) {
+            throw new IOException("文件为空");
+        }
+
         StringBuilder sb = new StringBuilder();
 
         try (InputStream fileContentB = filePart.getInputStream();

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.jpd.common.factory.SimpleBeanFactory;
+import org.example.jpd.common.util.LogUtil;
 import org.example.jpd.common.util.ThreadUtil;
 import org.example.jpd.service.ThreadService;
 
@@ -25,9 +26,11 @@ public class ThreadServlet extends HttpServlet {
         ThreadService threadService = SimpleBeanFactory.getInstance(ThreadService.class);
 
         if(req.getParameter("start") != null) {
+            LogUtil.logInfo("启动所有线程");
             threadService.startAllThreads();
         }
         else if(req.getParameter("clear") != null) {
+            LogUtil.logInfo("清空线程结果");
             threadService.clearResult();
         }
 

@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 
 /**
  * 打印工具类，用于快速将信息显示到网页上。
- * <p>{@link #printError}可输出异常信息。
  */
 public class PrintUtil {
 
@@ -25,8 +24,8 @@ public class PrintUtil {
         out.println("</html>");
     }
 
-
-    //TODO: 配置全局异常处理器，显示统一的页面
+    // 统一使用 error-page 显示错误信息
+    @Deprecated
     public static void printError(HttpServletResponse resp, String message, Exception e) throws IOException {
         print(resp, "Error", message + "<br>");
         e.printStackTrace(resp.getWriter());

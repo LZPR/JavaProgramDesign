@@ -5,10 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.jpd.common.constant.MessageConstant;
 import org.example.jpd.common.factory.SimpleBeanFactory;
 import org.example.jpd.common.util.BeanUtil;
-import org.example.jpd.common.util.PrintUtil;
+import org.example.jpd.common.util.LogUtil;
 import org.example.jpd.entity.PrimeEntity;
 import org.example.jpd.service.PrimeService;
 
@@ -28,15 +27,9 @@ public class PrimeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrimeEntity primeEntity = BeanUtil.parseParams(PrimeEntity.class, req);
+        LogUtil.logInfo("判断质数：" + primeEntity);
         PrimeService primeService = SimpleBeanFactory.getInstance(PrimeService.class);
-
-        try {
-            primeEntity = primeService.testPrimeNumber(primeEntity);
-        } catch (IllegalArgumentException e) {
-            PrintUtil.printError(resp, MessageConstant.ILLEGAL_ARGUMENT, e);
-            return;
-        }
-
+        primeEntity = primeService.testPrimeNumber(primeEntity);
         req.setAttribute("primeEntity", primeEntity);
         req.getRequestDispatcher("/prime.jsp").forward(req, resp);
     }

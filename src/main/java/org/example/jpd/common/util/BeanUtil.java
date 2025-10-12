@@ -1,6 +1,7 @@
 package org.example.jpd.common.util;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.jpd.common.exception.InvalidBeanException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,14 +11,14 @@ import java.lang.reflect.Method;
  */
 public class BeanUtil {
 
-    public static <T> T parseParams(Class<T> type, HttpServletRequest req) throws NumberFormatException {
+    public static <T> T parseParams(Class<T> type, HttpServletRequest req) throws NumberFormatException, InvalidBeanException {
         Field[] fields = type.getDeclaredFields();
         T instance = null;
 
         try {
             instance = type.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new NullPointerException();
+            throw new InvalidBeanException("无法创建 Bean", e);
         }
 
         for (Field field : fields) {
@@ -30,8 +31,7 @@ public class BeanUtil {
 
             try {
                 // int input -> setInput(int)
-                String methodName = "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-                Method setMethod = type.getMethod(methodName, field.getType());
+                Method setMethod = type.getMethod(wrapWithSetter(field.getName()), field.getType());
 
                 if (field.getType().equals(String.class)) {
                     setMethod.invoke(instance, param);
@@ -42,13 +42,18 @@ public class BeanUtil {
                 }
                 //TODO: 添加更多的类型转换，或者抽象出一个类型转换接口做成模板模式
             } catch (NumberFormatException e) {
-                //TODO: NoSuchMethodException 也应该抛出异常
                 throw e;
+            } catch (NoSuchMethodException e) {
+                throw new InvalidBeanException("字段不存在 setter 方法：" + field.getName());
             } catch (Exception e) {
                 continue;
             }
         }
 
         return instance;
+    }
+
+    private static String wrapWithSetter(String fieldName) {
+        return "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
     }
 }

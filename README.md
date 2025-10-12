@@ -8,7 +8,7 @@
 
 - [x] 所有的实验内容
 - [x] 基于网页实现
-- [ ] 日志及统一的异常处理
+- [x] 日志及统一的异常处理
 - [ ] 功能优化
 - [ ] 样式表美化
 - [ ] 单元测试
@@ -17,8 +17,8 @@
 
 使用 Jakarta EE (JSP) 框架，基于 MVC 架构。
 
-- `common`: 包含常量定义、工具类及实验所需的基本内容。
-- `controller`: 对应 MVC 中的 Controller，存放所有 Servlet。
+- `common`: 包含常量、异常、工具类等基本内容。
+- `controller`: 对应 MVC 中的 Controller，存放所有 Servlet，负责处理请求和响应。
 - `service`：服务层，负责主要业务逻辑。
 - `entity`: 对应 MVC 中的 Model，存放所有实体（Entity）。VO、DTO、PO 暂时三合一。
 - `dao`: 数据访问层，负责与数据库连接、关闭、增删改查。
@@ -42,7 +42,7 @@
 
 ### 环境需求
 
-- [Tomcat 10](https://tomcat.apache.org/download-10.cgi)
+- [Tomcat 10.1](https://tomcat.apache.org/download-10.cgi)
 - [MySQL 8](https://dev.mysql.com/downloads/installer/)
 
 ## 协作

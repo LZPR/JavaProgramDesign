@@ -1,5 +1,7 @@
 package org.example.jpd.common.factory;
 
+import org.example.jpd.common.exception.InvalidBeanException;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,7 +14,7 @@ public class SimpleBeanFactory {
     private static final Map<Class<?>, Object> instancesMap = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
-    public static <T> T getInstance(Class<T> type) throws NullPointerException {
+    public static <T> T getInstance(Class<T> type) throws InvalidBeanException {
         Objects.requireNonNull(type);
 
         T instance = (T) instancesMap.get(type);
@@ -21,7 +23,7 @@ public class SimpleBeanFactory {
             try {
                 instance = type.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
-                throw new NullPointerException("无法创建实例：" + e.getMessage());
+                throw new InvalidBeanException("无法创建 Bean", e);
             }
 
             instancesMap.put(type, instance);

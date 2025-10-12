@@ -1,5 +1,7 @@
 package org.example.jpd.dao;
 
+import org.example.jpd.common.exception.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

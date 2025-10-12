@@ -7,9 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import org.example.jpd.common.constant.MessageConstant;
 import org.example.jpd.common.factory.SimpleBeanFactory;
-import org.example.jpd.common.util.PrintUtil;
+import org.example.jpd.common.util.LogUtil;
 import org.example.jpd.entity.StreamEntity;
 import org.example.jpd.service.StreamService;
 
@@ -33,16 +32,10 @@ public class StreamServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StreamEntity streamEntity;
-
-        try {
-            Part filePart = req.getPart("file");
-            StreamService streamService = SimpleBeanFactory.getInstance(StreamService.class);
-            streamEntity = streamService.parseFile(filePart);
-        } catch (IllegalArgumentException e) {
-            PrintUtil.printError(resp, MessageConstant.ILLEGAL_ARGUMENT, e);
-            return;
-        }
-
+        Part filePart = req.getPart("file");
+        LogUtil.logInfo("处理文件：" + filePart.getSubmittedFileName());
+        StreamService streamService = SimpleBeanFactory.getInstance(StreamService.class);
+        streamEntity = streamService.parseFile(filePart);
         req.setAttribute("streamEntity", streamEntity);
         req.getRequestDispatcher("stream.jsp").forward(req, resp);
     }
