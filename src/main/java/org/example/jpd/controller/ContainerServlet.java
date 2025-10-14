@@ -5,7 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.jpd.common.factory.SimpleBeanFactory;
 import org.example.jpd.common.util.BeanUtil;
 import org.example.jpd.common.util.LogUtil;
 import org.example.jpd.entity.ContainerEntity;
@@ -16,6 +15,13 @@ import java.util.Collections;
 
 @WebServlet("/container-servlet")
 public class ContainerServlet extends HttpServlet {
+
+    private ContainerService containerService;
+
+    @Override
+    public void init() throws ServletException {
+        containerService = new ContainerService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +38,6 @@ public class ContainerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ContainerEntity containerEntity = BeanUtil.parseParams(ContainerEntity.class, req);
         LogUtil.logInfo("计算容器体积和表面积：" + containerEntity);
-        ContainerService containerService = SimpleBeanFactory.getInstance(ContainerService.class);
         containerEntity = containerService.calculate(containerEntity, Collections.list(req.getParameterNames()));
         req.setAttribute("containerEntity", containerEntity);
         req.getRequestDispatcher("container.jsp").forward(req, resp);

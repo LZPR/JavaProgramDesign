@@ -5,7 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.jpd.common.factory.SimpleBeanFactory;
 import org.example.jpd.common.util.LogUtil;
 import org.example.jpd.entity.ErrorEntity;
 import org.example.jpd.service.ErrorService;
@@ -15,6 +14,13 @@ import java.util.Objects;
 
 @WebServlet("/error-servlet")
 public class ErrorServlet extends HttpServlet {
+
+    private ErrorService errorService;
+
+    @Override
+    public void init() throws ServletException {
+        errorService = new ErrorService();
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,7 +50,6 @@ public class ErrorServlet extends HttpServlet {
 
         try {
             Objects.requireNonNull(ex);
-            ErrorService errorService = SimpleBeanFactory.getInstance(ErrorService.class);
             errorEntity = errorService.handleError(errorEntity);
         } catch (Exception e) {
             LogUtil.logInfo("线程名称：" + Thread.currentThread().getName());

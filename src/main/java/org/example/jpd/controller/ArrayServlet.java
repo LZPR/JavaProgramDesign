@@ -5,7 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.jpd.common.factory.SimpleBeanFactory;
 import org.example.jpd.common.util.BeanUtil;
 import org.example.jpd.common.util.LogUtil;
 import org.example.jpd.common.util.StringUtil;
@@ -16,6 +15,13 @@ import java.io.IOException;
 
 @WebServlet("/array-servlet")
 public class ArrayServlet extends HttpServlet {
+
+    private ArrayService arrayService;
+
+    @Override
+    public void init() throws ServletException {
+        arrayService = new ArrayService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +36,6 @@ public class ArrayServlet extends HttpServlet {
         ArrayEntity arrayEntity = BeanUtil.parseParams(ArrayEntity.class, req);
         LogUtil.logInfo("计算数组最大值：" + arrayEntity);
         // TODO 可以在网页上做一个可视化的列表，代替纯文本输入
-        ArrayService arrayService = SimpleBeanFactory.getInstance(ArrayService.class);
         arrayEntity = arrayService.getMaxNumber(arrayEntity, StringUtil.toArray(arrayEntity.getInput()));
         req.setAttribute("arrayEntity", arrayEntity);
         req.getRequestDispatcher("array.jsp").forward(req, resp);
