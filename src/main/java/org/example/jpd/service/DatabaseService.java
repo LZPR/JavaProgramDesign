@@ -6,6 +6,7 @@ import org.example.jpd.entity.BookEntity;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 public class DatabaseService {
 
@@ -24,7 +25,8 @@ public class DatabaseService {
 
             List<BookEntity> bookEntities = bookDao.selectAllBooks();
 
-            if (bookEntities.stream().anyMatch(entity -> entity.getId() == bookEntity.getId())) {
+            //虽然数据库中不允许 ID 重复，但在业务中提前检查可以更好地提示用户
+            if (bookEntities.stream().anyMatch(entity -> Objects.equals(entity.getId(), bookEntity.getId()))) {
                 throw new IllegalArgumentException("图书 ID 不能重复");
             }
 

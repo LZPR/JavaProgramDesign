@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.jpd.common.util.BeanUtil;
 import org.example.jpd.common.util.LogUtil;
+import org.example.jpd.common.util.ValidationUtil;
 import org.example.jpd.entity.BoxEntity;
 import org.example.jpd.service.BoxService;
 
@@ -36,6 +37,11 @@ public class BoxServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BoxEntity boxEntity = BeanUtil.parseParams(BoxEntity.class, req);
+        ValidationUtil.range(0, Double.MAX_VALUE,
+                boxEntity::getLength,
+                boxEntity::getWidth,
+                boxEntity::getHeight,
+                boxEntity::getDensity);
         LogUtil.logInfo("计算Box体积和重量：" + boxEntity);
         boxEntity = boxService.calculateBox(boxEntity);
         req.setAttribute("boxEntity", boxEntity);

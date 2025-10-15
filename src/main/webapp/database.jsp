@@ -42,22 +42,22 @@
 <form action="database-servlet" method="post">
     <h1>添加图书信息：</h1>
     <label>
-        书号：<input type="number" name="id">
+        书号：<input type="number" name="id" step="1" required>
     </label>
     <label>
-        书名：<input type="text" name="name">
+        书名：<input type="text" name="name" maxlength="20" required>
     </label>
     <label>
         价格：<input type="number" step="0.01" name="price" min="0">
     </label>
     <label>
-        出版社：<input type="text" name="publish">
+        出版社：<input type="text" name="publish" maxlength="20">
     </label>
     <label>
-        作者：<input type="text" name="author">
+        作者：<input type="text" name="author" maxlength="20">
     </label>
     <label>
-        类型：<input type="text" name="type">
+        类型：<input type="text" name="type" maxlength="20">
     </label>
     <input name="add" type="submit" value="添加">
     <input name="clear" type="submit" value="清空">

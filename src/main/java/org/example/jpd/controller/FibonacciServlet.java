@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.jpd.common.util.BeanUtil;
+import org.example.jpd.common.util.LogUtil;
+import org.example.jpd.common.util.ValidationUtil;
 import org.example.jpd.entity.FibonacciEntity;
 import org.example.jpd.service.FibonacciService;
 
@@ -31,8 +33,9 @@ public class FibonacciServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FibonacciEntity fibonacciEntity;
-        fibonacciEntity = BeanUtil.parseParams(FibonacciEntity.class, req);
+        FibonacciEntity fibonacciEntity = BeanUtil.parseParams(FibonacciEntity.class, req);
+        ValidationUtil.range(1, Integer.MAX_VALUE, fibonacciEntity::getInput);
+        LogUtil.logInfo("计算斐波那契数：" + fibonacciEntity);
         fibonacciEntity = fibonacciService.getFibonacci(fibonacciEntity);
         req.setAttribute("fibonacciEntity", fibonacciEntity);
         req.getRequestDispatcher("/fibonacci.jsp").forward(req, resp);

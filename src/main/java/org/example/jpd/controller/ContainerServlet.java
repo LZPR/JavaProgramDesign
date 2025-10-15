@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.jpd.common.util.BeanUtil;
 import org.example.jpd.common.util.LogUtil;
+import org.example.jpd.common.util.ValidationUtil;
 import org.example.jpd.entity.ContainerEntity;
 import org.example.jpd.service.ContainerService;
 
@@ -37,6 +38,11 @@ public class ContainerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ContainerEntity containerEntity = BeanUtil.parseParams(ContainerEntity.class, req);
+        ValidationUtil.range(0, Double.MAX_VALUE,
+                containerEntity::getCubeRadius,
+                containerEntity::getSphereRadius,
+                containerEntity::getCylinderRadius,
+                containerEntity::getCylinderHeight);
         LogUtil.logInfo("计算容器体积和表面积：" + containerEntity);
         containerEntity = containerService.calculate(containerEntity, Collections.list(req.getParameterNames()));
         req.setAttribute("containerEntity", containerEntity);

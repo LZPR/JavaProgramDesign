@@ -1,18 +1,18 @@
 package org.example.jpd.entity;
 
 public class BookEntity {
-    private int id;
+    private Integer id;
     private String name;
-    private double price;
+    private Double price;
     private String author;
     private String publish;
     private String type;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -24,11 +24,11 @@ public class BookEntity {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

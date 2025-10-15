@@ -1,11 +1,12 @@
 package org.example.jpd.service;
 
+import org.example.jpd.common.util.StringUtil;
 import org.example.jpd.entity.ArrayEntity;
 
 public class ArrayService {
 
-    public ArrayEntity getMaxNumber(ArrayEntity arrayEntity, int[] arr) {
-        arrayEntity.setResult(getMaxNumber(arr));
+    public ArrayEntity getMaxNumber(ArrayEntity arrayEntity) {
+        arrayEntity.setResult(getMaxNumber(StringUtil.toArray(arrayEntity.getInput())));
         return arrayEntity;
     }
 

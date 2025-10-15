@@ -1,11 +1,12 @@
 package org.example.jpd.dao;
 
+import org.example.jpd.common.util.BeanUtil;
+import org.example.jpd.common.util.SqlUtil;
 import org.example.jpd.entity.BookEntity;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BookDao extends BaseDao {
@@ -15,39 +16,42 @@ public class BookDao extends BaseDao {
     }
 
     public List<BookEntity> selectAllBooks() throws SQLException {
-        List<BookEntity> result = new ArrayList<>();
         try (PreparedStatement preparedStatement = getConnection()
                 .prepareStatement("select * from book order by book_price desc")) {
-
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                while (resultSet.next()) {
-                    BookEntity book = new BookEntity();
-                    book.setId(resultSet.getInt("book_id"));
-                    book.setName(resultSet.getString("book_name"));
-                    book.setPrice(resultSet.getDouble("book_price"));
-                    book.setAuthor(resultSet.getString("book_author"));
-                    book.setPublish(resultSet.getString("book_publish"));
-                    book.setType(resultSet.getString("book_type"));
-                    result.add(book);
-                }
+                return BeanUtil.parseResult(BookEntity.class, resultSet, "book_");
+                /*
+                * 等价于：
+                * while (resultSet.next()) {
+                *   BookEntity book = new BookEntity();
+                *   book.setId(resultSet.getInt("book_id"));
+                *   book.setName(resultSet.getString("book_name"));
+                *   book.setPrice(resultSet.getDouble("book_price"));
+                *   book.setAuthor(resultSet.getString("book_author"));
+                *   book.setPublish(resultSet.getString("book_publish"));
+                *   book.setType(resultSet.getString("book_type"));
+                *   result.add(book);
+                * }
+                * */
             }
         }
-        return result;
     }
 
     public void insertBook(BookEntity book) throws SQLException {
         try (PreparedStatement preparedStatement = getConnection()
                 .prepareStatement("insert into book(book_id, book_name, book_price, book_author, book_publish, book_type)" +
                         "values (?, ?, ?, ?, ?, ?)")) {
-
-            //虽然 SQL 定义中允许 null 但 SQL 操作时不能传入 null，因此统一不允许 null
-            preparedStatement.setInt(1, book.getId());
-            preparedStatement.setString(2, book.getName());
-            preparedStatement.setDouble(3, book.getPrice());
-            preparedStatement.setString(4, book.getAuthor());
-            preparedStatement.setString(5, book.getPublish());
-            preparedStatement.setString(6, book.getType());
+            SqlUtil.fillStatement(preparedStatement, book::getId, book::getName, book::getPrice,
+                    book::getAuthor, book::getPublish, book::getType);
+            /*
+            * 等价于：
+            * preparedStatement.setInt(1, book.getId());
+            * preparedStatement.setString(2, book.getName());
+            * preparedStatement.setDouble(3, book.getPrice());
+            * preparedStatement.setString(4, book.getAuthor());
+            * preparedStatement.setString(5, book.getPublish());
+            * preparedStatement.setString(6, book.getType());
+            * */
             preparedStatement.execute();
         }
     }
