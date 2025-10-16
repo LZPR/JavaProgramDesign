@@ -62,4 +62,22 @@ public class BookDao extends BaseDao {
             preparedStatement.execute();
         }
     }
+
+    public void updateBook(BookEntity bookEntity) throws SQLException {
+        try (PreparedStatement preparedStatement = getConnection()
+                .prepareStatement("update book set book_name=?, book_price=?, book_author=?, book_publish=?, book_type=? " +
+                        "where book_id=?")) {
+            SqlUtil.fillStatement(preparedStatement, bookEntity::getName, bookEntity::getPrice,
+                    bookEntity::getAuthor, bookEntity::getPublish, bookEntity::getType, bookEntity::getId);
+            preparedStatement.execute();
+        }
+    }
+
+    public void deleteBook(int id) throws SQLException {
+        try (PreparedStatement preparedStatement = getConnection()
+                .prepareStatement("delete from book where book_id=?")) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        }
+    }
 }

@@ -60,7 +60,6 @@
         类型：<input type="text" name="type" maxlength="20">
     </label>
     <input name="add" type="submit" value="添加">
-    <input name="clear" type="submit" value="清空">
 </form>
 </body>
 <style>

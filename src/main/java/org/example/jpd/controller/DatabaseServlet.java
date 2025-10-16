@@ -60,11 +60,8 @@ public class DatabaseServlet extends HttpServlet {
         if (req.getParameter("add") != null) {
             LogUtil.logInfo("添加图书：" + bookEntity);
             databaseService.addBook(bookEntity);
-        } else if (req.getParameter("clear") != null) {
-            LogUtil.logInfo("清空图书：" + bookEntity);
-            databaseService.clearBooks();
         }
-
+        //TODO: 完善CRUD操作
         doGet(req, resp);
     }
 }

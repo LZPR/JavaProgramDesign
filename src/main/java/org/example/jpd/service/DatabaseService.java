@@ -44,6 +44,22 @@ public class DatabaseService {
         }
     }
 
+    public void deleteBook(int id) throws DatabaseException {
+        try {
+            bookDao.deleteBook(id);
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    public void updateBook(BookEntity bookEntity) throws DatabaseException {
+        try {
+            bookDao.updateBook(bookEntity);
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
     public List<BookEntity> getBooks() throws DatabaseException {
         try {
             return bookDao.selectAllBooks();
