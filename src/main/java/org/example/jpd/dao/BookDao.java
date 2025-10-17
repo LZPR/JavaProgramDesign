@@ -17,7 +17,7 @@ public class BookDao extends BaseDao {
 
     public List<BookEntity> selectAllBooks() throws SQLException {
         try (PreparedStatement preparedStatement = getConnection()
-                .prepareStatement("select * from book order by book_price desc")) {
+                .prepareStatement("select * from book order by book_price asc")) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 return BeanUtil.parseResult(BookEntity.class, resultSet, "book_");
                 /*
