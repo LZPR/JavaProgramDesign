@@ -20,7 +20,7 @@ public class ThreadUtil {
     public static final Thread LEAP_THREAD_RUNNABLE = new Thread(new LeapThreadRunnable());
     public static final Thread THREAD2_RUNNABLE = new Thread(new Thread2Runnable());
 
-    public static final List<Thread> THREADS = List.of(LEAP_THREAD, PRIME_THREAD, THREAD2_RUNNABLE);
+    public static final List<Thread> THREADS = List.of(LEAP_THREAD, LEAP_THREAD_RUNNABLE, PRIME_THREAD, THREAD2_RUNNABLE);
 
     public static boolean startThread(Thread thread) {
         try {

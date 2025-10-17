@@ -18,8 +18,8 @@ public class StreamService {
 
         StringBuilder sb = new StringBuilder();
 
-        try (InputStream fileContentB = filePart.getInputStream();
-             BufferedReader br = new BufferedReader(new InputStreamReader(fileContentB))) {
+        try (InputStream fileContent = filePart.getInputStream();
+             BufferedReader br = new BufferedReader(new InputStreamReader(fileContent))) {
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -28,10 +28,16 @@ public class StreamService {
         }
 
         // 我的理解是把字符串转换成数字，而不是直接读取二进制数据
-        int number = Integer.parseInt(sb.toString());
+        String result;
+
+        try {
+            result = AlgorithmUtil.isPrimeNumber(Integer.parseInt(sb.toString())) ? "是" : "否";
+        } catch (NumberFormatException e) {
+            result = "文件内容不是整数";
+        }
 
         StreamEntity streamEntity = new StreamEntity();
-        streamEntity.setPrimeNumber(AlgorithmUtil.isPrimeNumber(number) ? "是" : "否");
+        streamEntity.setPrimeNumber(result);
         streamEntity.setFileContent(sb.toString());
 
         return streamEntity;
