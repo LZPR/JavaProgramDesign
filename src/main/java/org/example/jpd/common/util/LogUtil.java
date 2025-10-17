@@ -14,14 +14,6 @@ public class LogUtil {
         logger.info(message);
     }
 
-    public static void logError(String message) {
-        logger.severe(message);
-    }
-
-    public static void logDebug(String message) {
-        logger.fine(message);
-    }
-
     public static void logException(Throwable throwable) {
         logger.log(Level.SEVERE, "发生异常", throwable);
     }

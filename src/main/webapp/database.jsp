@@ -31,8 +31,8 @@
             <td>${book.id}</td>
             <td>${book.name}</td>
             <td>${book.price}</td>
-            <td>${book.author}</td>
             <td>${book.publish}</td>
+            <td>${book.author}</td>
             <td>${book.type}</td>
         </tr>
     </c:forEach>

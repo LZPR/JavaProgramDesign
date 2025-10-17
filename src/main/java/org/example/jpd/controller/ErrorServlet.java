@@ -57,7 +57,6 @@ public class ErrorServlet extends HttpServlet {
             LogUtil.logException(e);
             // 若处理异常的页面也出现异常，则显示当前异常
             errorEntity.setException(e);
-            errorEntity.setMessage("无法获取错误信息");
         }
 
         req.setAttribute("errorEntity", errorEntity);

@@ -14,7 +14,7 @@
 <body>
 <div class="card">
     <div class="icon">!</div>
-    <h1>${errorEntity.message}</h1>
+    <h1>错误</h1>
     <p>${errorEntity.exception.message}</p>
 </div>
 </body>

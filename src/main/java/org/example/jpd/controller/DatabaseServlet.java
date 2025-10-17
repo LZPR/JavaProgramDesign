@@ -5,11 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.example.jpd.common.util.BeanUtil;
+import org.example.jpd.common.constant.MessageConstant;
 import org.example.jpd.common.util.LogUtil;
-import org.example.jpd.common.util.ValidationUtil;
 import org.example.jpd.entity.BookEntity;
 import org.example.jpd.service.DatabaseService;
+import org.example.jpd.service.impl.DatabaseServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +21,13 @@ public class DatabaseServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        databaseService = new DatabaseService();
+        databaseService = new DatabaseServiceImpl();
+        databaseService.connect();
+    }
+
+    @Override
+    public void destroy() {
+        databaseService.disconnect();
     }
 
     @Override
@@ -33,35 +39,33 @@ public class DatabaseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        BookEntity bookEntity = BeanUtil.parseParams(BookEntity.class, req);
-        /* 等价于：
-        * bookEntity.setId(Integer.parseInt(req.getParameter("id")));
-        * bookEntity.setName(req.getParameter("name"));
-        * bookEntity.setPrice(Double.parseDouble(req.getParameter("price")));
-        * bookEntity.setAuthor(req.getParameter("author"));
-        * bookEntity.setPublish(req.getParameter("publish"));
-        * bookEntity.setType(req.getParameter("type"));
-        * */
-        //非业务的常规检查（与前端形成二次校验）
-        ValidationUtil.notNull(bookEntity::getId, bookEntity::getName);
-        /* 等价于：
-        * if(bookEntity.getId() == null || bookEntity.getName() == null) {
-        *     throw ...
-        * }
-        * */
-        ValidationUtil.maxLength(20, bookEntity::getName, bookEntity::getAuthor,
-                bookEntity::getPublish, bookEntity::getType);
-        /* 等价于：
-        * if(bookEntity.getName().length() > 20 || bookEntity.getAuthor().length() > 20 ||
-        *     bookEntity.getPublish().length() > 20 || bookEntity.getType().length() > 20) {
-        *     throw ...
-        * }
-        * */
+        BookEntity bookEntity = new BookEntity();
+
+        try {
+            bookEntity.setId(Integer.parseInt(req.getParameter("id")));
+            bookEntity.setName(req.getParameter("name"));
+            bookEntity.setPrice(Double.parseDouble(req.getParameter("price")));
+            bookEntity.setAuthor(req.getParameter("author"));
+            bookEntity.setPublish(req.getParameter("publish"));
+            bookEntity.setType(req.getParameter("type"));
+        } catch (NumberFormatException | NullPointerException e) {
+            // 字符串到数字的转换可能会出现异常（类型不匹配或为空）
+            throw new IllegalArgumentException(MessageConstant.ILLEGAL_INPUT_ERROR);
+        }
+
+        // 由于数据库中字段长度的限制为20，所以先提前把问题检查出来
+        if(bookEntity.getName().length() > 20 || bookEntity.getAuthor().length() > 20 ||
+            bookEntity.getPublish().length() > 20 || bookEntity.getType().length() > 20) {
+            throw new IllegalArgumentException(MessageConstant.ILLEGAL_INPUT_ERROR);
+        }
+
         if (req.getParameter("add") != null) {
+            // 输出日志，方便调试
             LogUtil.logInfo("添加图书：" + bookEntity);
             databaseService.addBook(bookEntity);
         }
-        //TODO: 完善CRUD操作
+
+        // 刷新页面（因为逻辑相同，所以直接复用）
         doGet(req, resp);
     }
 }

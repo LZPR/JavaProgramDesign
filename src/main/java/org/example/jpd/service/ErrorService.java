@@ -9,18 +9,9 @@ import java.util.Objects;
 
 public class ErrorService {
 
-    private static final Map<Class<? extends Throwable>, String> defaultErrorMessages = Map.of(
-            NumberFormatException.class, MessageConstant.NUMBER_FORMAT_ERROR,
-            IllegalArgumentException.class, MessageConstant.ILLEGAL_ARGUMENT,
-            ArithmeticException.class, MessageConstant.ARITHMETIC_EXCEPTION,
-            DatabaseException.class, MessageConstant.DATABASE_ERROR
-    );
-
     public ErrorEntity handleError(ErrorEntity errorEntity) {
         Throwable exception = errorEntity.getException();
         Objects.requireNonNull(exception);
-        String message =  defaultErrorMessages.getOrDefault(exception.getClass(), "错误");
-        errorEntity.setMessage(message);
         return errorEntity;
     }
 }

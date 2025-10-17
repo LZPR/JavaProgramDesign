@@ -2,7 +2,6 @@ package org.example.jpd.entity;
 
 public class ErrorEntity {
     private Throwable exception;
-    private String message;
     private String servletName;
     private Integer statusCode;
     private String requestUri;
@@ -13,14 +12,6 @@ public class ErrorEntity {
 
     public void setException(Throwable exception) {
         this.exception = exception;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public Integer getStatusCode() {
