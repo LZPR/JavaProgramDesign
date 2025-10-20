@@ -36,7 +36,7 @@ public class DatabaseServiceImpl implements org.example.jpd.service.DatabaseServ
     @Override
     public void addBook(BookEntity bookEntity) throws IllegalArgumentException, DatabaseException {
         try {
-            List<BookEntity> bookEntities = bookDao.selectAllBooks();
+            List<BookEntity> bookEntities = bookDao.displayBook();
 
             // 虽然数据库中不允许 ID 重复，但先检查一遍可以提前反馈出问题
             for (BookEntity entity : bookEntities) {
@@ -54,7 +54,7 @@ public class DatabaseServiceImpl implements org.example.jpd.service.DatabaseServ
     @Override
     public List<BookEntity> getBooks() throws DatabaseException {
         try {
-            return bookDao.selectAllBooks();
+            return bookDao.displayBook();
         } catch (SQLException e) {
             throw new DatabaseException(MessageConstant.DATABASE_ERROR);
         }

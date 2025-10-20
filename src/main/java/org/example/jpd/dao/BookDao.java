@@ -10,6 +10,10 @@ import java.util.List;
 
 public class BookDao extends BaseDao {
 
+    public List<BookEntity> displayBook() throws SQLException {
+        return selectAllBooks();
+    }
+
     public List<BookEntity> selectAllBooks() throws SQLException {
         try (PreparedStatement preparedStatement = getConnection()
                 .prepareStatement("select * from book order by book_price asc")) {
