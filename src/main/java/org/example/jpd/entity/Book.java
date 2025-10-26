@@ -1,6 +1,6 @@
 package org.example.jpd.entity;
 
-public class BookEntity {
+public class Book {
     private Integer id;
     private String name;
     private Double price;

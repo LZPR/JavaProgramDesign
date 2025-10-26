@@ -3,7 +3,7 @@ package org.example.jpd.service.impl;
 import org.example.jpd.common.constant.MessageConstant;
 import org.example.jpd.common.exception.DatabaseException;
 import org.example.jpd.dao.BookDao;
-import org.example.jpd.entity.BookEntity;
+import org.example.jpd.entity.Book;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -34,12 +34,12 @@ public class DatabaseServiceImpl implements org.example.jpd.service.DatabaseServ
     }
 
     @Override
-    public void addBook(BookEntity bookEntity) throws IllegalArgumentException, DatabaseException {
+    public void addBook(Book bookEntity) throws IllegalArgumentException, DatabaseException {
         try {
-            List<BookEntity> bookEntities = bookDao.displayBook();
+            List<Book> bookEntities = bookDao.displayBook();
 
             // 虽然数据库中不允许 ID 重复，但先检查一遍可以提前反馈出问题
-            for (BookEntity entity : bookEntities) {
+            for (Book entity : bookEntities) {
                 if (Objects.equals(entity.getId(), bookEntity.getId())) {
                     throw new IllegalArgumentException(MessageConstant.DUPLICATED_ID_ERROR);
                 }
@@ -52,7 +52,7 @@ public class DatabaseServiceImpl implements org.example.jpd.service.DatabaseServ
     }
 
     @Override
-    public List<BookEntity> getBooks() throws DatabaseException {
+    public List<Book> getBooks() throws DatabaseException {
         try {
             return bookDao.displayBook();
         } catch (SQLException e) {

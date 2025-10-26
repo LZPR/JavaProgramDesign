@@ -1,6 +1,6 @@
 package org.example.jpd.dao;
 
-import org.example.jpd.entity.BookEntity;
+import org.example.jpd.entity.Book;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,18 +10,18 @@ import java.util.List;
 
 public class BookDao extends BaseDao {
 
-    public List<BookEntity> displayBook() throws SQLException {
+    public List<Book> displayBook() throws SQLException {
         return selectAllBooks();
     }
 
-    public List<BookEntity> selectAllBooks() throws SQLException {
+    public List<Book> selectAllBooks() throws SQLException {
         try (PreparedStatement preparedStatement = getConnection()
                 .prepareStatement("select * from book order by book_price asc")) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                List<BookEntity> result = new ArrayList<>();
+                List<Book> result = new ArrayList<>();
 
                 while (resultSet.next()) {
-                  BookEntity book = new BookEntity();
+                  Book book = new Book();
                   book.setId(resultSet.getInt("book_id"));
                   book.setName(resultSet.getString("book_name"));
                   book.setPrice(resultSet.getDouble("book_price"));
@@ -36,9 +36,10 @@ public class BookDao extends BaseDao {
         }
     }
 
-    public void insertBook(BookEntity book) throws SQLException {
+    public void insertBook(Book book) throws SQLException {
         try (PreparedStatement preparedStatement = getConnection()
-                .prepareStatement("insert into book(book_id, book_name, book_price, book_author, book_publish, book_type)" +
+                .prepareStatement("insert into book" +
+                        "(book_id, book_name, book_price, book_author, book_publish, book_type)" +
                         "values (?, ?, ?, ?, ?, ?)")) {
 
             preparedStatement.setInt(1, book.getId());

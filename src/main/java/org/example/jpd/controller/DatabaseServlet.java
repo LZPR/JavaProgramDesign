@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.jpd.common.constant.MessageConstant;
 import org.example.jpd.common.util.LogUtil;
-import org.example.jpd.entity.BookEntity;
+import org.example.jpd.entity.Book;
 import org.example.jpd.service.DatabaseService;
 import org.example.jpd.service.impl.DatabaseServiceImpl;
 
@@ -32,14 +32,14 @@ public class DatabaseServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<BookEntity> bookEntities = databaseService.getBooks();
+        List<Book> bookEntities = databaseService.getBooks();
         req.setAttribute("books", bookEntities);
         req.getRequestDispatcher("database.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        BookEntity bookEntity = new BookEntity();
+        Book bookEntity = new Book();
 
         try {
             bookEntity.setId(Integer.parseInt(req.getParameter("id")));
